@@ -1,0 +1,7 @@
+<script>
+    var ctrlIndex = ({
+
+    });
+
+    
+</script>

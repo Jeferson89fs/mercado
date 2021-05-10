@@ -1,0 +1,697 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.26
+-- Dumped by pg_dump version 9.4.26
+-- Started on 2021-05-10 01:14:34
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 7 (class 2615 OID 16601)
+-- Name: vendas; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA vendas;
+
+
+ALTER SCHEMA vendas OWNER TO postgres;
+
+--
+-- TOC entry 1 (class 3079 OID 11855)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2053 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 180 (class 1259 OID 16744)
+-- Name: percentual_imposto; Type: TABLE; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE vendas.percentual_imposto (
+    id_percentual_imposto integer NOT NULL,
+    id_tipo_produto integer NOT NULL,
+    nr_valor_imposto numeric NOT NULL,
+    dt_cadastro timestamp with time zone NOT NULL,
+    dt_desativacao timestamp with time zone
+);
+
+
+ALTER TABLE vendas.percentual_imposto OWNER TO postgres;
+
+--
+-- TOC entry 2054 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: COLUMN percentual_imposto.id_percentual_imposto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.percentual_imposto.id_percentual_imposto IS 'Identificador percentual_imposto';
+
+
+--
+-- TOC entry 2055 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: COLUMN percentual_imposto.id_tipo_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.percentual_imposto.id_tipo_produto IS 'Identificador tipo_produto';
+
+
+--
+-- TOC entry 2056 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: COLUMN percentual_imposto.nr_valor_imposto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.percentual_imposto.nr_valor_imposto IS 'Valor percentual do Imposto';
+
+
+--
+-- TOC entry 2057 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: COLUMN percentual_imposto.dt_cadastro; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.percentual_imposto.dt_cadastro IS 'Data de cadastro de imposto';
+
+
+--
+-- TOC entry 2058 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: COLUMN percentual_imposto.dt_desativacao; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.percentual_imposto.dt_desativacao IS 'Data de desativação do imposto';
+
+
+--
+-- TOC entry 179 (class 1259 OID 16742)
+-- Name: percentual_imposto_id_percentual_imposto_seq; Type: SEQUENCE; Schema: vendas; Owner: postgres
+--
+
+CREATE SEQUENCE vendas.percentual_imposto_id_percentual_imposto_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE vendas.percentual_imposto_id_percentual_imposto_seq OWNER TO postgres;
+
+--
+-- TOC entry 2059 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: percentual_imposto_id_percentual_imposto_seq; Type: SEQUENCE OWNED BY; Schema: vendas; Owner: postgres
+--
+
+ALTER SEQUENCE vendas.percentual_imposto_id_percentual_imposto_seq OWNED BY vendas.percentual_imposto.id_percentual_imposto;
+
+
+--
+-- TOC entry 182 (class 1259 OID 16864)
+-- Name: produto; Type: TABLE; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE vendas.produto (
+    id_produto integer NOT NULL,
+    cd_produto character(50) NOT NULL,
+    id_tipo_produto integer NOT NULL,
+    nm_produto character varying(150) NOT NULL,
+    nr_valor numeric(16,2) NOT NULL,
+    ds_produto text,
+    fl_ativo character(1) NOT NULL,
+    dt_cadastro time with time zone NOT NULL
+);
+
+
+ALTER TABLE vendas.produto OWNER TO postgres;
+
+--
+-- TOC entry 2060 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN produto.id_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.produto.id_produto IS 'Identificador da tabela Produto';
+
+
+--
+-- TOC entry 2061 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN produto.cd_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.produto.cd_produto IS 'Código do Produto';
+
+
+--
+-- TOC entry 2062 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN produto.id_tipo_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.produto.id_tipo_produto IS 'Identificador da tabela tipo_produto | Tipo do Produto';
+
+
+--
+-- TOC entry 2063 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN produto.nm_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.produto.nm_produto IS 'Nome do Produto';
+
+
+--
+-- TOC entry 2064 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN produto.nr_valor; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.produto.nr_valor IS 'Valor do Produto';
+
+
+--
+-- TOC entry 2065 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN produto.ds_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.produto.ds_produto IS 'Descrição do produto';
+
+
+--
+-- TOC entry 2066 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN produto.fl_ativo; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.produto.fl_ativo IS 'Situação do produto';
+
+
+--
+-- TOC entry 2067 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN produto.dt_cadastro; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.produto.dt_cadastro IS 'Data de Cadastro';
+
+
+--
+-- TOC entry 181 (class 1259 OID 16862)
+-- Name: produto_id_produto_seq; Type: SEQUENCE; Schema: vendas; Owner: postgres
+--
+
+CREATE SEQUENCE vendas.produto_id_produto_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE vendas.produto_id_produto_seq OWNER TO postgres;
+
+--
+-- TOC entry 2068 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: produto_id_produto_seq; Type: SEQUENCE OWNED BY; Schema: vendas; Owner: postgres
+--
+
+ALTER SEQUENCE vendas.produto_id_produto_seq OWNED BY vendas.produto.id_produto;
+
+
+--
+-- TOC entry 178 (class 1259 OID 16736)
+-- Name: tipo_produto; Type: TABLE; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE vendas.tipo_produto (
+    id_tipo_produto integer NOT NULL,
+    nm_tipo_produto character(100) NOT NULL
+);
+
+
+ALTER TABLE vendas.tipo_produto OWNER TO postgres;
+
+--
+-- TOC entry 2069 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: COLUMN tipo_produto.id_tipo_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.tipo_produto.id_tipo_produto IS 'Identificador do tipo Produto';
+
+
+--
+-- TOC entry 2070 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: COLUMN tipo_produto.nm_tipo_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.tipo_produto.nm_tipo_produto IS 'Nome do tipo do produto';
+
+
+--
+-- TOC entry 177 (class 1259 OID 16734)
+-- Name: tipo_produto_id_tipo_produto_seq; Type: SEQUENCE; Schema: vendas; Owner: postgres
+--
+
+CREATE SEQUENCE vendas.tipo_produto_id_tipo_produto_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE vendas.tipo_produto_id_tipo_produto_seq OWNER TO postgres;
+
+--
+-- TOC entry 2071 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: tipo_produto_id_tipo_produto_seq; Type: SEQUENCE OWNED BY; Schema: vendas; Owner: postgres
+--
+
+ALTER SEQUENCE vendas.tipo_produto_id_tipo_produto_seq OWNED BY vendas.tipo_produto.id_tipo_produto;
+
+
+--
+-- TOC entry 174 (class 1259 OID 16646)
+-- Name: venda; Type: TABLE; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE vendas.venda (
+    id_venda integer NOT NULL,
+    nr_valor_venda numeric(16,2) NOT NULL,
+    dt_cadastro timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE vendas.venda OWNER TO postgres;
+
+--
+-- TOC entry 2072 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: COLUMN venda.id_venda; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda.id_venda IS 'Identificador da Venda';
+
+
+--
+-- TOC entry 2073 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: COLUMN venda.nr_valor_venda; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda.nr_valor_venda IS 'Valor da Venda';
+
+
+--
+-- TOC entry 2074 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: COLUMN venda.dt_cadastro; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda.dt_cadastro IS 'Data da Venda';
+
+
+--
+-- TOC entry 173 (class 1259 OID 16644)
+-- Name: venda_id_venda_seq; Type: SEQUENCE; Schema: vendas; Owner: postgres
+--
+
+CREATE SEQUENCE vendas.venda_id_venda_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE vendas.venda_id_venda_seq OWNER TO postgres;
+
+--
+-- TOC entry 2075 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: venda_id_venda_seq; Type: SEQUENCE OWNED BY; Schema: vendas; Owner: postgres
+--
+
+ALTER SEQUENCE vendas.venda_id_venda_seq OWNED BY vendas.venda.id_venda;
+
+
+--
+-- TOC entry 176 (class 1259 OID 16655)
+-- Name: venda_item; Type: TABLE; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE vendas.venda_item (
+    id_venda_item integer NOT NULL,
+    id_venda integer NOT NULL,
+    id_produto integer NOT NULL,
+    nr_valor numeric NOT NULL,
+    nr_quantidade numeric(16,2) NOT NULL,
+    dt_cadastro timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE vendas.venda_item OWNER TO postgres;
+
+--
+-- TOC entry 2076 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: COLUMN venda_item.id_venda_item; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda_item.id_venda_item IS 'Identificador Venda Item';
+
+
+--
+-- TOC entry 2077 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: COLUMN venda_item.id_venda; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda_item.id_venda IS 'Identificador da Venda';
+
+
+--
+-- TOC entry 2078 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: COLUMN venda_item.id_produto; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda_item.id_produto IS 'Identificador do produto';
+
+
+--
+-- TOC entry 2079 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: COLUMN venda_item.nr_valor; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda_item.nr_valor IS 'Valor de venda do produto';
+
+
+--
+-- TOC entry 2080 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: COLUMN venda_item.nr_quantidade; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda_item.nr_quantidade IS 'Quantidade de produto por item';
+
+
+--
+-- TOC entry 2081 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: COLUMN venda_item.dt_cadastro; Type: COMMENT; Schema: vendas; Owner: postgres
+--
+
+COMMENT ON COLUMN vendas.venda_item.dt_cadastro IS 'Data de Cadastro';
+
+
+--
+-- TOC entry 175 (class 1259 OID 16653)
+-- Name: venda_item_id_venda_item_seq; Type: SEQUENCE; Schema: vendas; Owner: postgres
+--
+
+CREATE SEQUENCE vendas.venda_item_id_venda_item_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE vendas.venda_item_id_venda_item_seq OWNER TO postgres;
+
+--
+-- TOC entry 2082 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: venda_item_id_venda_item_seq; Type: SEQUENCE OWNED BY; Schema: vendas; Owner: postgres
+--
+
+ALTER SEQUENCE vendas.venda_item_id_venda_item_seq OWNED BY vendas.venda_item.id_venda_item;
+
+
+--
+-- TOC entry 1911 (class 2604 OID 16747)
+-- Name: id_percentual_imposto; Type: DEFAULT; Schema: vendas; Owner: postgres
+--
+
+ALTER TABLE ONLY vendas.percentual_imposto ALTER COLUMN id_percentual_imposto SET DEFAULT nextval('vendas.percentual_imposto_id_percentual_imposto_seq'::regclass);
+
+
+--
+-- TOC entry 1912 (class 2604 OID 16867)
+-- Name: id_produto; Type: DEFAULT; Schema: vendas; Owner: postgres
+--
+
+ALTER TABLE ONLY vendas.produto ALTER COLUMN id_produto SET DEFAULT nextval('vendas.produto_id_produto_seq'::regclass);
+
+
+--
+-- TOC entry 1910 (class 2604 OID 16739)
+-- Name: id_tipo_produto; Type: DEFAULT; Schema: vendas; Owner: postgres
+--
+
+ALTER TABLE ONLY vendas.tipo_produto ALTER COLUMN id_tipo_produto SET DEFAULT nextval('vendas.tipo_produto_id_tipo_produto_seq'::regclass);
+
+
+--
+-- TOC entry 1908 (class 2604 OID 16649)
+-- Name: id_venda; Type: DEFAULT; Schema: vendas; Owner: postgres
+--
+
+ALTER TABLE ONLY vendas.venda ALTER COLUMN id_venda SET DEFAULT nextval('vendas.venda_id_venda_seq'::regclass);
+
+
+--
+-- TOC entry 1909 (class 2604 OID 16658)
+-- Name: id_venda_item; Type: DEFAULT; Schema: vendas; Owner: postgres
+--
+
+ALTER TABLE ONLY vendas.venda_item ALTER COLUMN id_venda_item SET DEFAULT nextval('vendas.venda_item_id_venda_item_seq'::regclass);
+
+
+--
+-- TOC entry 2044 (class 0 OID 16744)
+-- Dependencies: 180
+-- Data for Name: percentual_imposto; Type: TABLE DATA; Schema: vendas; Owner: postgres
+--
+
+COPY vendas.percentual_imposto (id_percentual_imposto, id_tipo_produto, nr_valor_imposto, dt_cadastro, dt_desativacao) FROM stdin;
+15	52	7	2021-05-10 00:11:35.345-03	\N
+16	51	5	2021-05-10 00:11:50.741-03	\N
+17	50	10.00	2021-05-10 00:12:08.872-03	\N
+\.
+
+
+--
+-- TOC entry 2083 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: percentual_imposto_id_percentual_imposto_seq; Type: SEQUENCE SET; Schema: vendas; Owner: postgres
+--
+
+SELECT pg_catalog.setval('vendas.percentual_imposto_id_percentual_imposto_seq', 17, true);
+
+
+--
+-- TOC entry 2046 (class 0 OID 16864)
+-- Dependencies: 182
+-- Data for Name: produto; Type: TABLE DATA; Schema: vendas; Owner: postgres
+--
+
+COPY vendas.produto (id_produto, cd_produto, id_tipo_produto, nm_produto, nr_valor, ds_produto, fl_ativo, dt_cadastro) FROM stdin;
+3	00001                                             	50	Monitor Curvo Full HD Samsung LED 24 C24F390	879.00	\N	A	00:17:33.173-03
+4	0002                                              	50	Monitor Gamer S2421HGF	1234.56	Monitor Gamer S2421HGF	A	00:19:13.492-03
+\.
+
+
+--
+-- TOC entry 2084 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: produto_id_produto_seq; Type: SEQUENCE SET; Schema: vendas; Owner: postgres
+--
+
+SELECT pg_catalog.setval('vendas.produto_id_produto_seq', 4, true);
+
+
+--
+-- TOC entry 2042 (class 0 OID 16736)
+-- Dependencies: 178
+-- Data for Name: tipo_produto; Type: TABLE DATA; Schema: vendas; Owner: postgres
+--
+
+COPY vendas.tipo_produto (id_tipo_produto, nm_tipo_produto) FROM stdin;
+50	Informática                                                                                         
+51	Roupas                                                                                              
+52	Calçados                                                                                            
+\.
+
+
+--
+-- TOC entry 2085 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: tipo_produto_id_tipo_produto_seq; Type: SEQUENCE SET; Schema: vendas; Owner: postgres
+--
+
+SELECT pg_catalog.setval('vendas.tipo_produto_id_tipo_produto_seq', 53, true);
+
+
+--
+-- TOC entry 2038 (class 0 OID 16646)
+-- Dependencies: 174
+-- Data for Name: venda; Type: TABLE DATA; Schema: vendas; Owner: postgres
+--
+
+COPY vendas.venda (id_venda, nr_valor_venda, dt_cadastro) FROM stdin;
+7	1358.02	2021-05-10 00:28:46.204-03
+8	1358.02	2021-05-10 00:32:06.943-03
+\.
+
+
+--
+-- TOC entry 2086 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: venda_id_venda_seq; Type: SEQUENCE SET; Schema: vendas; Owner: postgres
+--
+
+SELECT pg_catalog.setval('vendas.venda_id_venda_seq', 8, true);
+
+
+--
+-- TOC entry 2040 (class 0 OID 16655)
+-- Dependencies: 176
+-- Data for Name: venda_item; Type: TABLE DATA; Schema: vendas; Owner: postgres
+--
+
+COPY vendas.venda_item (id_venda_item, id_venda, id_produto, nr_valor, nr_quantidade, dt_cadastro) FROM stdin;
+11	7	4	1358.02	1.00	2021-05-10 00:28:46.204-03
+12	8	4	1358.0159999999998	1.00	2021-05-10 00:32:06.943-03
+\.
+
+
+--
+-- TOC entry 2087 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: venda_item_id_venda_item_seq; Type: SEQUENCE SET; Schema: vendas; Owner: postgres
+--
+
+SELECT pg_catalog.setval('vendas.venda_item_id_venda_item_seq', 12, true);
+
+
+--
+-- TOC entry 1924 (class 2606 OID 16872)
+-- Name: pk_id_produto; Type: CONSTRAINT; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY vendas.produto
+    ADD CONSTRAINT pk_id_produto PRIMARY KEY (id_produto);
+
+
+--
+-- TOC entry 1922 (class 2606 OID 16752)
+-- Name: pk_percentual_imposto; Type: CONSTRAINT; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY vendas.percentual_imposto
+    ADD CONSTRAINT pk_percentual_imposto PRIMARY KEY (id_percentual_imposto);
+
+
+--
+-- TOC entry 1918 (class 2606 OID 16741)
+-- Name: pk_tipo_produto; Type: CONSTRAINT; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY vendas.tipo_produto
+    ADD CONSTRAINT pk_tipo_produto PRIMARY KEY (id_tipo_produto);
+
+
+--
+-- TOC entry 1914 (class 2606 OID 16651)
+-- Name: pk_venda; Type: CONSTRAINT; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY vendas.venda
+    ADD CONSTRAINT pk_venda PRIMARY KEY (id_venda);
+
+
+--
+-- TOC entry 1916 (class 2606 OID 16663)
+-- Name: pk_venda_item; Type: CONSTRAINT; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY vendas.venda_item
+    ADD CONSTRAINT pk_venda_item PRIMARY KEY (id_venda_item);
+
+
+--
+-- TOC entry 1920 (class 2606 OID 16764)
+-- Name: uk_nm_tipo_produto; Type: CONSTRAINT; Schema: vendas; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY vendas.tipo_produto
+    ADD CONSTRAINT uk_nm_tipo_produto UNIQUE (nm_tipo_produto);
+
+
+--
+-- TOC entry 1927 (class 2606 OID 16873)
+-- Name: fk_produto_tipo_produto; Type: FK CONSTRAINT; Schema: vendas; Owner: postgres
+--
+
+ALTER TABLE ONLY vendas.produto
+    ADD CONSTRAINT fk_produto_tipo_produto FOREIGN KEY (id_tipo_produto) REFERENCES vendas.tipo_produto(id_tipo_produto);
+
+
+--
+-- TOC entry 1926 (class 2606 OID 16890)
+-- Name: fk_tipo_imposto; Type: FK CONSTRAINT; Schema: vendas; Owner: postgres
+--
+
+ALTER TABLE ONLY vendas.percentual_imposto
+    ADD CONSTRAINT fk_tipo_imposto FOREIGN KEY (id_tipo_produto) REFERENCES vendas.tipo_produto(id_tipo_produto) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1925 (class 2606 OID 16885)
+-- Name: fk_venda_venda_item; Type: FK CONSTRAINT; Schema: vendas; Owner: postgres
+--
+
+ALTER TABLE ONLY vendas.venda_item
+    ADD CONSTRAINT fk_venda_venda_item FOREIGN KEY (id_venda) REFERENCES vendas.venda(id_venda) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+-- Completed on 2021-05-10 01:14:35
+
+--
+-- PostgreSQL database dump complete
+--
+

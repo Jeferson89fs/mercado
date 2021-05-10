@@ -1,0 +1,19 @@
+{
+    "name": "vendas/mercado",
+    "description": "Mercado",
+    "authors": [
+        {
+            "name": "Jeferson Ferreira",
+            "email": "jeferson89fs@gmail.com.br"
+        }
+    ],
+    "require": {
+        
+    },
+    "autoload":{
+        "psr-4":{
+            "App\\":"../app/",
+            "Src\\":"../src/"
+        }
+    }
+}
